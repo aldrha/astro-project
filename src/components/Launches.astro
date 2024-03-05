@@ -1,27 +1,11 @@
 ---
-import { type APISpacesXResponse } from "../types/api";
+import { getLaunches } from "../services/api.service";
 import CardLaunch from "./CardLaunch.astro";
-const res = await fetch("https://api.spacexdata.com/v5/launches/query", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    query: {},
-    options: {
-      sort: {
-        date_unix: "asc",
-      },
-    },
-    limit: 12,
-  }),
-});
 
-const { docs: launches } = (await res.json()) as APISpacesXResponse;
 // console.log(launches);
+const launches = await getLaunches();
 ---
 
-<!-- <img src={launch.links.patch.small} alt="photo" />; -->
 <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
   {
     launches.map((launch) => (
